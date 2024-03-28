@@ -17,6 +17,7 @@
   "author": "pecras",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0"
   },
