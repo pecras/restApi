@@ -5,10 +5,17 @@ import { development, production, test } from './Environment';
 
 const getEnvironment = () => {
   switch (process.env.NODE_ENV) {
-    case 'production': return production;
-    case 'test': return test;
+    case 'production':
+    console.log("1")  
+    return production;
+    case 'test': 
+    console.log("2")
+    return test;
 
-    default: return development;
+    default: 
+    
+    console.log("3")
+    return development;
   }
 };
 

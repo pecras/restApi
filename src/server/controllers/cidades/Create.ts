@@ -1,33 +1,33 @@
-import { Request,  Response } from "express";
-import * as yup from 'yup'
-import { validation } from "../../shared/middlewares";
+import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import * as yup from 'yup';
+
+import { CidadesProvider } from '../../database/providers/cidades';
+import { validation } from '../../shared/middlewares';
+import { ICidade } from '../../database/models';
 
 
-interface ICidade{
-    nome:string;
-   
-}
-
-
+interface IBodyProps extends Omit<ICidade, 'id'> { }
 
 export const createValidation = validation((getSchema) => ({
-  body: getSchema<ICidade>(yup.object().shape({
-    nome: yup.string().required().min(3),
-    estado: yup.string().required().min(2)
+  body: getSchema<IBodyProps>(yup.object().shape({
+    nome: yup.string().required().min(3).max(150),
   })),
 }));
 
+export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
+  const result = await CidadesProvider.create(req.body);
 
+  if (result instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: result.message
+      }
+    });
+  }
 
-//1
-export const create= async (req:Request<{},{},ICidade>,res:Response)=>{
-   
-console.log(req.body)
-
-
-    return res.status(StatusCodes.CREATED).send('Não implementado!');
-}
+  return res.status(StatusCodes.CREATED).json(result);
+};
 // *1 <{},{},ICidade> se colocar o mouse sobre req:Request vai aparecer vê que o terceiro campo do req é ŕeqBody
 
 

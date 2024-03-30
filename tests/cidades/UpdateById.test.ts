@@ -9,7 +9,7 @@ describe('Cidades - UpdateById', () => {
 
     const res1 = await testServer
       .post('/cidades')
-      .send({ nome: 'Caxias do sul',estado:'RS' });
+      .send({ nome: 'Caxias do sul' });
 
     expect(res1.statusCode).toEqual(StatusCodes.CREATED);
 

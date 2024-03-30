@@ -1,14 +1,16 @@
-import { Router } from "express";
+import { Router } from 'express';
+
+import { CidadesController } from './../controllers';
 
 
-import { CidadesController } from "./../controllers";
 
-const router=Router()
+const router = Router();
 
-router.get('/',(_,res)=>{
-    return res.send('Olá Dev')
-})
 
+
+router.get('/', (_, res) => {
+  return res.send('Olá, DEV!');
+});
 
 router.get('/cidades', CidadesController.getAllValidation, CidadesController.getAll);
 router.post('/cidades', CidadesController.createValidation, CidadesController.create);
@@ -16,4 +18,6 @@ router.get('/cidades/:id', CidadesController.getByIdValidation, CidadesControlle
 router.put('/cidades/:id', CidadesController.updateByIdValidation, CidadesController.updateById);
 router.delete('/cidades/:id', CidadesController.deleteByIdValidation, CidadesController.deleteById);
 
-export {router}
+
+
+export { router };

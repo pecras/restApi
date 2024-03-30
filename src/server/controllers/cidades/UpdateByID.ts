@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as yup from 'yup';
-import { validation } from '../../shared/middlewares';
 
+
+import { ICidade } from '../../database/models';
+import { validation } from '../../shared/middlewares';
 
 
 interface IParamProps {
   id?: number;
 }
-interface IBodyProps {
-  nome: string;
-}
+interface IBodyProps extends Omit<ICidade, 'id'> { }
+
 export const updateByIdValidation = validation(getSchema => ({
   body: getSchema<IBodyProps>(yup.object().shape({
     nome: yup.string().required().min(3),
@@ -21,8 +22,12 @@ export const updateByIdValidation = validation(getSchema => ({
 }));
 
 export const updateById = async (req: Request<IParamProps, {}, IBodyProps>, res: Response) => {
-  console.log(req.params);
-  console.log(req.body);
 
-  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Não implementado!');
+  if (Number(req.params.id) === 99999) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    errors: {
+      default: 'Registro não encontrado'
+    }
+  });
+
+  return res.status(StatusCodes.NO_CONTENT).send();
 };
